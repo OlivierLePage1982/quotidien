@@ -1,9 +1,8 @@
+
 name: Actualisation des invités de Quotidien
 
 on:
   schedule:
-    # Vérifications fréquentes autour de 17h30, 18h30 et 19h30, heure de Paris.
-    # Le contrôle Python ci-dessous tient compte du changement heure été/hiver.
     - cron: "0,30 15-18 * * 1-5"
   workflow_dispatch:
 
@@ -40,13 +39,13 @@ jobs:
 
       - name: Récupérer les invités
         if: github.event_name == 'workflow_dispatch' || steps.horaire.outputs.run == 'true'
-        run: python quotidien/recuperer_invites.py
+        run: python recuperer_invites.py
 
       - name: Enregistrer les changements
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add quotidien/quotidien.json
+          git add quotidien.json
           git diff --cached --quiet || (
             git commit -m "Actualisation des invités de Quotidien" &&
             git push
