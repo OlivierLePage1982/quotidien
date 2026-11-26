@@ -1,25 +1,33 @@
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Les invités du jour de Quotidien.">
-  <title>Quotidien - Les invités du jour</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#ffffff">
+  <title>Les invités du jour — Quotidien</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <main class="container">
-    <header>
-      <h1>QUOTIDIEN</h1>
-      <p class="subtitle">LES INVITÉS DU JOUR</p>
+  <main class="page">
+    <header class="header">
+      <div class="eyebrow">QUOTIDIEN</div>
+      <h1>Les invités<br>d’aujourd’hui<span class="yellow-dot">.</span></h1>
+      <div class="yellow-line"></div>
+      <p id="date" class="date"></p>
     </header>
 
-    <p id="date" class="date"></p>
-    <section id="guests" class="guests" aria-live="polite"></section>
+    <section class="guest-section">
+      <div class="section-label">AU PROGRAMME</div>
+      <div id="guests" class="guest-list"></div>
+    </section>
 
-    <footer id="footer" hidden>
-      <p id="updated"></p>
+    <footer id="footer" class="footer" hidden>
+      <span class="update-mark"></span>
+      <span id="updated"></span>
     </footer>
+
+    <div class="bottom-decoration"></div>
   </main>
 
   <script src="app.js"></script>
