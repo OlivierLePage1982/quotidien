@@ -3,7 +3,8 @@ name: Actualisation des invités de Quotidien
 
 on:
   schedule:
-    - cron: "0,30 15-18 * * 1-5"
+    - cron: "30 17,18 * * 1-5"
+      timezone: "Europe/Paris"
   workflow_dispatch:
 
 permissions:
@@ -26,19 +27,7 @@ jobs:
         run: |
           pip install requests beautifulsoup4
 
-      - name: Vérifier l'heure de Paris
-        id: horaire
-        run: |
-          python - <<'PY' >> "$GITHUB_OUTPUT"
-          from datetime import datetime
-          from zoneinfo import ZoneInfo
-          now = datetime.now(ZoneInfo("Europe/Paris"))
-          run = now.weekday() < 5 and (now.hour, now.minute) in [(17, 30), (18, 30)]
-          print(f"run={str(run).lower()}")
-          PY
-
       - name: Récupérer les invités
-        if: github.event_name == 'workflow_dispatch' || steps.horaire.outputs.run == 'true'
         run: python recuperer_invites.py
 
       - name: Enregistrer les changements
