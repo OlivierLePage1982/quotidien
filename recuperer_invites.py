@@ -125,17 +125,23 @@ def extract_guests(article_url):
         )
         return None
 
+    # Recherche du début de la liste dans un intertitre OU un paragraphe
     heading = None
 
-    for element in soup.find_all(["h2", "h3", "h4"]):
+    for element in soup.find_all(["h2", "h3", "h4", "p"]):
         text = element.get_text(" ", strip=True)
+        text = re.sub(r"\s+", " ", text).strip()
 
-        if re.match(r"^Les invités reçus\b", text, re.IGNORECASE):
+        if re.match(
+            r"^Les invités reçus\b",
+            text,
+            re.IGNORECASE
+        ):
             heading = element
             break
 
     if heading is None:
-        print("Intertitre des invités introuvable.")
+        print("Début de la liste des invités introuvable.")
         return None
 
     guests = []
@@ -152,13 +158,19 @@ def extract_guests(article_url):
 
         lower_text = text.lower()
 
+        # Arrêt avant les éléments qui ne font plus partie de l'article
+        if "dernière modification" in lower_text:
+            break
+        if "pour ne rien louper" in lower_text:
+            break
+        if "recevez en avant-première" in lower_text:
+            break
+        if "follow @" in lower_text:
+            break
+
         if lower_text == "magazines":
             continue
         if "newsletter" in lower_text:
-            continue
-        if "pour ne rien louper" in lower_text:
-            continue
-        if "recevez en avant-première" in lower_text:
             continue
 
         guests.append(text)
